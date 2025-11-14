@@ -1,0 +1,81 @@
+{
+  "ui": {
+    "theme": "light",
+    "primary_color": "#2196F3",
+    "secondary_color": "#FFC107",
+    "text_color": "#000000",
+    "background_color": "#FFFFFF",
+    "font_family": "Arial",
+    "font_size": 11,
+    "window": {
+      "width": 1280,
+      "height": 800,
+      "maximized": false
+    },
+    "sidebar_width": 200,
+    "show_status_bar": true,
+    "show_toolbar": true,
+    "animations_enabled": true
+  },
+  "writing": {
+    "default_tone": "Professional",
+    "default_pov": "Third Limited",
+    "default_genre": "Fiction",
+    "default_target_audience": "General",
+    "enable_spell_check": true,
+    "enable_grammar_check": true,
+    "highlight_repeated_words": true,
+    "show_readability_score": true,
+    "auto_save_interval": 60,
+    "highlight_long_sentences": true,
+    "daily_word_goal": 1000,
+    "session_word_goal": 500
+  },
+  "api": {
+    "openai_key": "",
+    "anthropic_key": "",
+    "google_key": "",
+    "huggingface_key": "",
+    "ollama_url": "http://localhost:11434",
+    "words_api_key": "",
+    "apyhub_key": "",
+    "default_model": "gpt-3.5-turbo",
+    "default_provider": "openai",
+    "request_timeout": 30,
+    "max_retries": 3,
+    "enable_api_caching": true,
+    "cache_expiration_days": 7,
+    "rate_limit_requests": 60,
+    "rate_limit_window": 3600,
+    "enable_rate_limiting": true
+  },
+  "export": {
+    "default_format": "docx",
+    "default_export_dir": "exports",
+    "include_metadata": true,
+    "include_statistics": true,
+    "compress_output": false,
+    "formats_enabled": {
+      "txt": true,
+      "md": true,
+      "docx": true,
+      "pdf": true,
+      "epub": true,
+      "json": true
+    }
+  },
+  "performance": {
+    "cache_size_mb": 100,
+    "analytics_update_interval": 2,
+    "database_optimization_frequency": 7,
+    "connection_pool_size": 5,
+    "query_timeout_ms": 5000
+  },
+  "advanced": {
+    "debug_mode": false,
+    "logging_level": "INFO",
+    "enable_query_cache": true,
+    "enable_connection_pooling": true,
+    "database_path": "config/aawt.db"
+  }
+}
