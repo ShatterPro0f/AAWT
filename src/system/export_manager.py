@@ -56,6 +56,9 @@ class ExportManager:
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
             filename = f"{project_name}_{timestamp}.{format}"
             output_path = Path(export_dir) / filename
+        else:
+            # Convert string path to Path object
+            output_path = Path(output_path)
         
         # Route to appropriate export method
         export_methods = {
