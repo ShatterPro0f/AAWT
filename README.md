@@ -57,9 +57,9 @@ Whether you're crafting an epic fantasy series, developing intricate characters,
 
 ## Technology Stack
 - **Language:** Python 3.x
-- **GUI Framework:** PyQt5
+- **GUI Framework:** PyQt5 (Graphical User Interface)
 - **Database:** SQLite 3 with connection pooling
-- **External APIs:** OpenAI, Anthropic, Google, Words API, ApyHub Readability API
+- **External APIs:** OpenAI, Anthropic, Google, Words API, ApyHub Readability API (API = Application Programming Interface)
 - **File Formats:** DOCX, PDF, EPUB, TXT, Markdown, JSON
 
 ## Core Features
@@ -561,7 +561,7 @@ The grammar analyzer connects to the Words API through RapidAPI to access compre
 When the Words API is unavailable or rate limits are reached, the system automatically falls back to local algorithms. The fallback uses built-in dictionaries and heuristic rules to provide basic analysis. This ensures the application remains functional even without API connectivity. The system caches all API responses locally to minimize API calls and improve performance.
 
 **Caching System:**
-API responses are cached with a 24-hour expiration. When the same analysis is requested, the system retrieves the cached result rather than making a new API call. This significantly reduces both API costs and user wait time. The cache is stored in a local database and automatically cleaned of expired entries.
+The system caches API responses with a 24-hour expiration. When the same analysis is requested, the system retrieves the cached result rather than making a new API call. This significantly reduces both API costs and user wait time. The system stores the cache in a local database and automatically cleans expired entries.
 
 ## Readability Analysis Tool
 
@@ -815,256 +815,48 @@ The widget compares the calculated readability metrics against the selected audi
 
 # Database System
 
-## Database Architecture Overview
-
-The database system is the backbone of FANWS, providing persistent storage for all application data, project information, writing sessions, API usage, and analytics. It's designed for concurrent access, fast queries, and reliable data integrity.
-
-## Database Manager System
-
-### Core Responsibilities
-
-The database manager handles all interactions with the underlying SQLite database. It provides connection pooling to manage multiple concurrent connections efficiently, implements query caching to reduce repeated queries, and monitors performance to detect bottlenecks.
-
-**Key Management Functions:**
-- Connection lifecycle management (creation, validation, reuse, cleanup)
-- Connection pool size optimization based on application load
-- Automatic reconnection on connection failures
-- Query timeout enforcement to prevent hanging queries
-- Health check monitoring to detect stale connections
-- Transaction management with automatic rollback on errors
-- Performance statistics collection and reporting
-
-### Connection Pooling Strategy
-
-Rather than creating a new database connection for each query, the system maintains a pool of pre-established connections. When a query needs to execute, it borrows a connection from the pool, uses it, then returns it for reuse. This dramatically improves performance since connection creation is expensive.
-
-**Pool Configuration:**
-- Default pool size is typically 5 connections
-- Maximum connection limit prevents resource exhaustion
-- Connection timeout is set (default 30 seconds) to detect hung connections
-- Idle connection cleanup removes unused connections after a period of inactivity
-- Health monitoring thread periodically tests connections in the pool
-- Automatic growth when all connections are in use (up to maximum)
-
-**Connection Lifecycle:**
-When a connection is idle too long, it's tested with a simple query to verify it's still valid. If the test fails, the connection is removed and a new one is created. This ensures the pool always contains reliable, working connections.
-
-### Query Cache System
-
-The query cache stores results of frequently-run queries so they don't need to be re-executed. Queries with identical parameters return cached results instead of hitting the database. This is particularly useful for repeated analyses that read the same project data.
-
-**Cache Key Generation:**
-Cache keys are generated from the query text and parameters, ensuring that only identical queries share cache entries. Different queries or different parameter values generate different cache keys.
-
-**Cache Expiration:**
-Cached entries are stored with a timestamp and expiration time. When retrieving from cache, the system checks if the entry has expired. Expired entries are removed and the query executes fresh. Typical expiration is 1 hour for most queries, but can be customized by query type.
-
-**Cache Invalidation:**
-When data is modified (inserts, updates, deletes), the cache entries for that table are invalidated immediately. This prevents returning stale data after modifications. Invalidation can be automatic (system detects affected tables) or manual (explicit cache clear).
-
-**Performance Impact:**
-Query caching reduces database load significantly for read-heavy operations. For applications with many repeated queries (like dashboard refreshes), cache hit rates often exceed 70%, reducing database operations by over half.
-
-### Database Configuration and Optimization
-
-**PRAGMA Settings for Performance:**
-- Foreign key enforcement ensures referential integrity
-- Write-Ahead Logging (WAL) mode improves concurrent access
-- Synchronous mode set to NORMAL balances safety with speed
-- Cache size allocation (2000 pages default) for in-memory buffering
-- Temporary storage in memory for faster temporary operations
-- Automatic incremental vacuum to clean up space gradually
-
-**Schema Optimization:**
-- Appropriate indexes on frequently-queried columns
-- Primary key indexes for fast lookups
-- Foreign key indexes for join performance
-- Compound indexes for multi-column queries
-
-## Database Schema
-
-### Projects Table
-
-Stores information about each writing project the user creates.
-
-**Core Fields:**
-- **id** (Integer, Primary Key): Unique identifier for each project
-- **name** (Text, Unique): Project name (must be unique across all projects)
-- **created_date** (Text): ISO 8601 timestamp when project was created
-- **last_modified** (Text): ISO 8601 timestamp of most recent project change
-- **status** (Text): Current project state - "active" (being worked on), "paused" (temporarily stopped), or "completed" (finished)
-
-**Data Fields:**
-- **settings** (Text, JSON format): Project-specific settings stored as JSON (genre, target audience, style preferences)
-- **word_count** (Integer): Current total word count in project
-- **target_words** (Integer): User's target word count goal for the project
-- **metadata** (Text, JSON format): Additional project information (description, themes, characters, etc.)
-
-**Indexes:**
-- Primary key on id (automatic)
-- Unique constraint on name (prevents duplicate project names)
-- Recommended index on created_date and status for filtering
-
-**Relationships:**
-- One-to-many relationship with api_usage table (project can have many API calls)
-- One-to-many relationship with content_cache table (project can have many cache entries)
-- One-to-many relationship with writing_sessions table (project can have many sessions)
-
-### API Usage Table
-
-Tracks every API call made by the application for analytics, cost calculation, and performance monitoring.
-
-**Call Information:**
-- **id** (Integer, Primary Key): Unique identifier for each API call
-- **project_id** (Integer, Foreign Key): Which project triggered this API call (nullable if system-wide)
-- **api_type** (Text): Which API was called ("openai", "anthropic", "google", "huggingface")
-- **endpoint** (Text): Specific API endpoint called (e.g., "/chat/completions")
-
-**Performance Data:**
-- **response_time** (Float): How long the API call took in seconds
-- **success** (Boolean): Whether the call succeeded or failed
-- **status_code** (Integer): HTTP status code returned
-- **error_message** (Text, nullable): If call failed, error description
-
-**Cost Data:**
-- **tokens_used** (Integer): Number of tokens consumed (for LLM APIs)
-- **cost** (Float): Calculated cost for this call in dollars
-- **timestamp** (Text): ISO 8601 timestamp of when call was made
-
-**Optimization:**
-- **request_hash** (Text): Hash of request parameters for deduplication detection
-
-**Indexes:**
-- Primary key on id
-- Foreign key on project_id
-- Recommended compound index on (api_type, timestamp) for filtering by API and date range
-- Recommended index on timestamp for date-based queries
-- Recommended index on success for failure rate analysis
-
-### Content Cache Table
-
-Stores cached analysis results, API responses, and other data to avoid redundant calculations and API calls.
-
-**Cache Entry Structure:**
-- **id** (Integer, Primary Key): Unique cache entry identifier
-- **project_id** (Integer, Foreign Key): Which project this cache entry belongs to
-- **content_type** (Text): Type of cached content ("analysis", "api_response", "readability", etc.)
-- **content_key** (Text): Identifying key for this cache entry (e.g., text hash)
-- **content_value** (Text/BLOB): Actual cached data, typically JSON
-
-**Metadata:**
-- **content_hash** (Text): Hash of content for integrity checking
-- **created_date** (Text): ISO 8601 timestamp when cached
-- **expires_date** (Text): ISO 8601 timestamp when cache expires
-- **access_count** (Integer): How many times this cache entry has been used
-- **last_accessed** (Text): ISO 8601 timestamp of most recent use
-
-**Unique Constraint:**
-- Compound unique constraint on (project_id, content_type, content_key) ensures no duplicate entries
-
-**Indexes:**
-- Primary key on id
-- Foreign key on project_id
-- Recommended index on expires_date for cleanup queries
-- Recommended index on (content_type, content_key) for lookups
-
-### Writing Sessions Table
-
-Records each writing session for analytics and progress tracking.
-
-**Session Information:**
-- **id** (Integer, Primary Key): Unique session identifier
-- **project_id** (Integer, Foreign Key): Which project was being worked on
-- **start_time** (Text): ISO 8601 timestamp when session started
-- **end_time** (Text, nullable): ISO 8601 timestamp when session ended (nullable while session is active)
-
-**Session Data:**
-- **words_written** (Integer): How many words were written during this session
-- **session_type** (Text): Type of session - "writing" (creative work), "editing" (revision), or "review" (reading/planning)
-
-**Indexes:**
-- Primary key on id
-- Foreign key on project_id
-- Recommended index on (project_id, start_time) for session history retrieval
-
-### Change History Table (Optional)
-
-Optionally tracks all modifications to project content for undo functionality and change tracking.
-
-**Change Record Structure:**
-- **id** (Integer, Primary Key): Unique change identifier
-- **project_id** (Integer, Foreign Key): Which project was modified
-- **change_type** (Text): "insert", "delete", or "replace"
-- **content_before** (Text): What was there before (for deletes and replaces)
-- **content_after** (Text): What was inserted or replaced with
-- **timestamp** (Text): When change was made
-- **character_position** (Integer): Where in the document the change occurred
-- **line_number** (Integer): Which line number was affected
-
-## Database Operation Patterns
-
-### Retrieving Project Information
-
-When opening a project, the system retrieves:
-- Basic project metadata from the projects table
-- Writing session history to show recent activity
-- Cache entries for previously-calculated metrics to speed up initial display
-- API usage history to show cost and activity
-
-This is accomplished through carefully structured queries that minimize database operations by fetching related data together.
-
-### Logging API Usage
-
-Each API call results in an INSERT operation into the api_usage table. The system captures:
-- When the call was made
-- Which API endpoint was called
-- Whether it succeeded or failed
-- How long it took
-- How many tokens were used (if applicable)
-- The cost
-
-This data is later queried for analytics dashboards and cost reporting.
-
-### Storing Analysis Results
-
-When text analysis completes, results are cached in the content_cache table. The cache key is typically a hash of the analyzed text. If the same text is analyzed again, the cached result is retrieved instead of re-analyzing.
-
-### Querying Historical Data
-
-The application queries historical data for:
-- Writing statistics (words per day, sessions per week, etc.)
-- Cost analysis (total API spending, spending by API type, trends)
-- Project progress (estimated completion date, pace tracking)
-- Performance metrics (average query time, cache hit rate)
-
-These queries often use aggregation functions (SUM, COUNT, AVG) and GROUP BY clauses to summarize data across time periods.
-
-### Database Maintenance
-
-Periodic maintenance operations include:
-- Removing expired cache entries (older than 7 days by default)
-- Clearing old session data (keeping last 90 days)
-- Optimizing table statistics with ANALYZE
-- Defragmenting the database with VACUUM (if not in WAL mode)
-- Checking referential integrity and repairing any issues
-
-These maintenance operations run automatically on a schedule (typically weekly).
-
-## Data Integrity and Consistency
-
-**Transaction Management:**
-All multi-step operations are wrapped in database transactions. If any step fails, the entire transaction is rolled back, ensuring the database never enters an inconsistent state.
-
-**Foreign Key Constraints:**
-Foreign key constraints enforce referential integrity. You cannot delete a project while it still has associated records in other tables. This prevents orphaned records.
-
-**Data Validation:**
-All data is validated before insertion. Project names must be non-empty strings. Timestamps must be in ISO 8601 format. Numeric values are type-checked. Invalid data is rejected with clear error messages.
-
-**Atomic Operations:**
-Critical operations like "update project word count and record session" are atomic - they either complete entirely or roll back entirely. There's no intermediate state where one part succeeds but another fails.
-
-
+## Overview
+
+The database system is the backbone of AAWT, providing persistent storage for all application data, project information, writing sessions, API usage, and analytics. It uses SQLite with connection pooling for concurrent access, fast queries, and reliable data integrity.
+
+## Key Features
+
+**Performance Optimization:**
+- **Connection Pooling:** Maintains 5 reusable connections (configurable) to minimize connection overhead
+- **Query Caching:** Caches frequently-run queries with 70%+ cache hit rates
+- **Smart Indexing:** Uses appropriate indexes for fast lookups and joins
+- **Write-Ahead Logging:** Improves concurrent access performance
+
+**Data Storage:**
+- **Projects:** Stores all project metadata, settings, and content references
+- **Writing Sessions:** Tracks every writing session for analytics
+- **API Usage:** Logs all API calls for cost tracking and monitoring
+- **Content Cache:** Stores analysis results to avoid redundant processing
+- **Change History:** Records all modifications for undo/redo functionality
+
+**Data Integrity:**
+- **Transaction Management:** All multi-step operations are atomic
+- **Foreign Key Constraints:** Enforces referential integrity across tables
+- **Data Validation:** All input is validated before storage
+- **Automatic Backups:** Regular automated backups prevent data loss
+
+## Database Operations
+
+**Common Operations:**
+- **Loading Projects:** Retrieves project metadata, session history, and cached metrics in optimized queries
+- **Tracking API Usage:** Logs every API call with timing, cost, and success status
+- **Caching Analysis:** Stores text analysis results for instant retrieval
+- **Historical Queries:** Aggregates data for statistics, trends, and reporting
+
+**Maintenance:**
+- Automatic cache cleanup (removes entries older than 7 days)
+- Session data retention (keeps last 90 days)
+- Weekly database optimization (ANALYZE and VACUUM)
+- Integrity checks and repairs
+
+For detailed schema information, see the [Technical Reference](#technical-reference) section.
+
+---
 
 # API Integration & Caching
 
@@ -1111,7 +903,7 @@ The enhanced request is formatted according to the selected API's requirements a
 The API response is parsed and validated. The system extracts the generated text and any metadata. Error responses are detected and reported to the user.
 
 **Step 7: Cache Storage**
-Successful responses are stored in the cache with a timestamp and expiration time. Cost is calculated based on token usage. The API call is logged to the database.
+The system stores successful responses in the cache with a timestamp and expiration time. The system calculates cost based on token usage and logs the API call to the database.
 
 **Step 8: User Presentation**
 The response is presented to the user in the UI, typically in a suggestion dialog. The user can accept, reject, edit, or request regeneration.
@@ -3081,7 +2873,7 @@ When user stops writing or closes app:
 
 **Application Shutdown:**
 ```
-User closes FANWS:
+User closes AAWT:
 
 1. Check for unsaved content:
    ├─ If changes exist:
@@ -3687,7 +3479,7 @@ AAWT prioritizes the security of your work and the privacy of your data. This se
 
 ## API Key Storage & Protection
 
-API keys are stored securely in the settings file with encryption. When displayed in the UI, they're masked, showing only the last 4 characters. Full keys are only visible if you explicitly click "Show".
+The system stores API keys securely in the settings file with encryption. When displaying keys in the UI, the system masks them, showing only the last 4 characters. Full keys are only visible if you explicitly click "Show".
 
 **Encryption Method:**
 The system encrypts keys using your operating system credentials when possible. This ties encryption to your user account, preventing access by other users on the same computer.
@@ -4192,7 +3984,7 @@ Debug mode provides detailed logging and additional information for troubleshoot
 In the Advanced settings tab, enable "Debug Mode". This activates detailed logging to the application log file.
 
 **Log File Location:**
-Logs are stored in `logs/fanws.log`. Each session creates a timestamped entry. Old logs are automatically rotated and archived.
+The system stores logs in `logs/aawt.log`. Each session creates a timestamped entry. Old logs are automatically rotated and archived.
 
 **Debug Output:**
 Debug mode enables extra information display in the UI, expanded error messages, and performance profiling.
