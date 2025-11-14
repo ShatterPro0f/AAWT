@@ -21,7 +21,8 @@ class MainWindow(QMainWindow):
     """Main application window."""
     
     def __init__(self, settings_manager, database_manager, api_manager,
-                 text_analyzer, export_manager, file_operations):
+                 text_analyzer, export_manager, file_operations, workflow_manager=None,
+                 grammar_analyzer=None):
         """
         Initialize main window.
         
@@ -32,6 +33,8 @@ class MainWindow(QMainWindow):
             text_analyzer: Text analyzer instance
             export_manager: Export manager instance
             file_operations: File operations instance
+            workflow_manager: Workflow manager instance (optional)
+            grammar_analyzer: Grammar analyzer instance (optional)
         """
         super().__init__()
         
@@ -41,6 +44,8 @@ class MainWindow(QMainWindow):
         self.analyzer = text_analyzer
         self.exporter = export_manager
         self.files = file_operations
+        self.workflow = workflow_manager
+        self.grammar = grammar_analyzer
         
         self.init_ui()
         self.create_menu_bar()
@@ -68,7 +73,9 @@ class MainWindow(QMainWindow):
             self.api,
             self.analyzer,
             self.exporter,
-            self.files
+            self.files,
+            self.workflow,
+            self.grammar
         )
         self.setCentralWidget(self.central_widget)
     

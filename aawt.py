@@ -43,6 +43,8 @@ def main():
         from src.system.api_manager import APIManager
         from src.system.export_manager import ExportManager
         from src.system.file_operations import FileOperations
+        from src.system.automated_workflow import WorkflowManager
+        from src.system.text_analyzers import GrammarAnalyzer
         from src.text.text_processing import TextAnalyzer
         from src.ui.main_window import MainWindow
         
@@ -68,9 +70,11 @@ def main():
         
         database_manager = DatabaseManager(database_path, pool_size)
         text_analyzer = TextAnalyzer()
+        grammar_analyzer = GrammarAnalyzer(settings_manager)
         export_manager = ExportManager(settings_manager)
         file_operations = FileOperations('projects')
         api_manager = APIManager(settings_manager, database_manager)
+        workflow_manager = WorkflowManager(database_manager, api_manager, settings_manager)
         
         logger.info("All components initialized successfully")
         
@@ -81,7 +85,9 @@ def main():
             api_manager,
             text_analyzer,
             export_manager,
-            file_operations
+            file_operations,
+            workflow_manager,
+            grammar_analyzer
         )
         
         window.show()

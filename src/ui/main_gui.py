@@ -25,7 +25,8 @@ class MainGUI(QWidget):
     """Main GUI widget with sidebar navigation and content views."""
     
     def __init__(self, settings_manager, database_manager, api_manager,
-                 text_analyzer, export_manager, file_operations):
+                 text_analyzer, export_manager, file_operations, workflow_manager=None,
+                 grammar_analyzer=None):
         """
         Initialize main GUI.
         
@@ -36,6 +37,8 @@ class MainGUI(QWidget):
             text_analyzer: Text analyzer instance
             export_manager: Export manager instance
             file_operations: File operations instance
+            workflow_manager: Workflow manager instance (optional)
+            grammar_analyzer: Grammar analyzer instance (optional)
         """
         super().__init__()
         
@@ -45,6 +48,8 @@ class MainGUI(QWidget):
         self.analyzer = text_analyzer
         self.exporter = export_manager
         self.files = file_operations
+        self.workflow = workflow_manager
+        self.grammar = grammar_analyzer
         
         self.current_project = None
         self.current_session = None
@@ -87,6 +92,7 @@ class MainGUI(QWidget):
             ("Dashboard", self.show_dashboard),
             ("Projects", self.show_projects),
             ("Writing Editor", self.show_editor),
+            ("Workflow", self.show_workflow),
             ("Analytics", self.show_analytics),
             ("Settings", self.show_settings),
             ("Help", self.show_help)
@@ -129,6 +135,10 @@ class MainGUI(QWidget):
         # Editor view
         self.editor_widget = self.create_editor()
         stack.addTab(self.editor_widget, "Editor")
+        
+        # Workflow view
+        self.workflow_widget = self.create_workflow_view()
+        stack.addTab(self.workflow_widget, "Workflow")
         
         # Analytics view
         self.analytics_widget = self.create_analytics()
@@ -267,6 +277,26 @@ class MainGUI(QWidget):
         self.analysis_panel.setStyleSheet("background: #f9f9f9; padding: 10px; border: 1px solid #ddd;")
         self.analysis_panel.setMaximumHeight(150)
         layout.addWidget(self.analysis_panel)
+        
+        widget.setLayout(layout)
+        return widget
+    
+    def create_workflow_view(self) -> QWidget:
+        """Create automated workflow view."""
+        widget = QWidget()
+        layout = QVBoxLayout()
+        
+        if self.workflow:
+            # Import the automated novel GUI
+            from .automated_novel_gui import AutomatedNovelGUI
+            workflow_gui = AutomatedNovelGUI(self.workflow)
+            layout.addWidget(workflow_gui)
+        else:
+            # Show message if workflow not available
+            label = QLabel("Automated Workflow feature not available.\nWorkflow manager not initialized.")
+            label.setStyleSheet("font-size: 16px; padding: 20px;")
+            label.setAlignment(Qt.AlignCenter)
+            layout.addWidget(label)
         
         widget.setLayout(layout)
         return widget
@@ -637,19 +667,23 @@ class MainGUI(QWidget):
         """Show editor view."""
         self.content_stack.setCurrentIndex(2)
     
+    def show_workflow(self):
+        """Show workflow view."""
+        self.content_stack.setCurrentIndex(3)
+    
     def show_analytics(self):
         """Show analytics view."""
-        self.content_stack.setCurrentIndex(3)
+        self.content_stack.setCurrentIndex(4)
         self.refresh_text_analysis()
         self.refresh_api_stats()
     
     def show_settings(self):
         """Show settings view."""
-        self.content_stack.setCurrentIndex(4)
+        self.content_stack.setCurrentIndex(5)
     
     def show_help(self):
         """Show help view."""
-        self.content_stack.setCurrentIndex(5)
+        self.content_stack.setCurrentIndex(6)
     
     # Project management methods
     def create_new_project(self):
