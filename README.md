@@ -1,48 +1,59 @@
 # AAWT
 AI Assisted Writing Tool
 
+**An integrated writing platform for authors who want real-time analysis, versioning, and AI-assisted improvements.**
+
 ## Comprehensive Feature Documentation
 
 **Version:** 2.0
 **Last Updated:** November 2024
-**Purpose:** Complete documentation of all FANWS features for recreation and understanding
+**Purpose:** Complete documentation of all AAWT features, designed to help writers manage drafts, track changes, and stay organized in their world-building and writing projects
 
 ---
 
 # Table of Contents
 1. [Application Overview](#application-overview)
-2. [Core Architecture](#core-architecture)
-3. [User Interface Components](#user-interface-components)
-4. [Text Analysis & Writing Tools](#text-analysis--writing-tools)
-5. [Database System](#database-system)
-6. [API Integration & Caching](#api-integration--caching)
-7. [Settings & Configuration](#settings--configuration)
-8. [Export Functionality](#export-functionality)
-9. [Performance Monitoring](#performance-monitoring)
-10. [Advanced Features](#advanced-features)
-11. [Integration Points](#integration-points)
-12. [Error Handling & Logging](#error-handling--logging)
-13. [Data Structures](#data-structures)
-14. [Workflow & User Flows](#workflow--user-flows)
-15. [Project Storage & Organization](#project-storage--organization)
-16. [Writing Session Mechanics](#writing-session-mechanics)
-17. [Undo/Redo System](#undoredo-system)
-18. [Keyboard Shortcuts Reference](#keyboard-shortcuts-reference)
-19. [Theme System](#theme-system)
-20. [Notification System](#notification-system)
-21. [Help & Documentation System](#help--documentation-system)
-22. [Security Considerations](#security-considerations)
-23. [Accessibility Features](#accessibility-features)
-24. [Multi-Language Support](#multi-language-support)
-25. [Troubleshooting & Support](#troubleshooting--support)
-26. [Data Flow Architecture](#data-flow-architecture)
+2. [Getting Started](#getting-started)
+3. [Core Architecture](#core-architecture)
+4. [User Interface Components](#user-interface-components)
+5. [Text Analysis & Writing Tools](#text-analysis--writing-tools)
+6. [Project Storage & Organization](#project-storage--organization)
+7. [Writing Session Mechanics](#writing-session-mechanics)
+8. [Undo/Redo System & Versioning](#undoredo-system--versioning)
+9. [API Integration & Caching](#api-integration--caching)
+10. [Settings & Configuration](#settings--configuration)
+11. [Export Functionality](#export-functionality)
+12. [Security & Privacy](#security--privacy)
+13. [Performance & Scalability](#performance--scalability)
+14. [Accessibility Features](#accessibility-features)
+15. [Multi-Language Support](#multi-language-support)
+16. [Keyboard Shortcuts Reference](#keyboard-shortcuts-reference)
+17. [Theme System](#theme-system)
+18. [Notification System](#notification-system)
+19. [Help & Documentation System](#help--documentation-system)
+20. [Best Practices for Writers](#best-practices-for-writers)
+21. [Future Enhancements & Roadmap](#future-enhancements--roadmap)
+22. [Workflow & User Flows](#workflow--user-flows)
+23. [Troubleshooting & Support](#troubleshooting--support)
+24. [Technical Reference](#technical-reference)
 
 ---
 
 # Application Overview
 
 ## Purpose
-FANWS is a comprehensive desktop application designed to assist fantasy adventure novel writers through an integrated writing system with real-time analysis, API integration, quality checking, and multi-format export capabilities.
+
+AAWT is a comprehensive desktop application designed to assist writers—particularly those working on fantasy, fiction, and world-building projects—through an integrated writing system with real-time analysis, quality checking, and multi-format export capabilities. 
+
+**Key User Pain Points Addressed:**
+- **Managing Drafts:** Keep track of multiple versions and iterations of your work with automatic versioning
+- **Tracking Changes:** Monitor every modification with detailed change history and undo/redo capabilities
+- **Staying Organized:** Manage complex projects with character lists, plot outlines, and session tracking
+- **Improving Quality:** Get real-time feedback on readability, grammar, and style consistency
+- **Collaborating with AI:** Leverage AI assistance for brainstorming, continuation, and refinement
+- **World-Building:** Maintain consistency across character names, places, and terminology in complex fictional worlds
+
+Whether you're crafting an epic fantasy series, developing intricate characters, or building detailed fictional universes, AAWT helps you stay organized and maintain quality throughout your writing journey.
 
 ## Technology Stack
 - **Language:** Python 3.x
@@ -52,27 +63,77 @@ FANWS is a comprehensive desktop application designed to assist fantasy adventur
 - **File Formats:** DOCX, PDF, EPUB, TXT, Markdown, JSON
 
 ## Core Features
-- **Multi-project Management** - Create, load, and delete projects with full state persistence
-- **Real-time Text Analysis** - Continuous metrics calculation including word count, readability, complexity
-- **Advanced Grammar & Readability** - Integrated grammar checking, repeated word detection, readability scoring
-- **Settings Persistence** - Dot-notation configuration system with nested section access and JSON storage
-- **Comprehensive Export** - Multi-format export supporting TXT, Markdown, DOCX, PDF, EPUB, and JSON
-- **Performance Monitoring** - Real-time CPU, memory, and disk usage tracking with threshold alerts
-- **API Integration** - Support for OpenAI, Anthropic, Claude, Google APIs with intelligent caching and rate limiting
-- **Cost Estimation** - Automatic calculation of API usage costs and budget tracking
-- **Responsive Status Bar** - Real-time display of connection status, resource usage, and application state
-- **Theme System** - Light and dark mode support with customizable color schemes
-- **Automated Workflows** - 11-step writing process with progress tracking and recovery
-- **Writing Analytics** - Session tracking, word count goals, productivity insights, and historical analysis
-- **Database System** - SQLite backend with connection pooling, query caching, and automatic optimization
-- **Error Handling** - Comprehensive error logging, user-friendly error dialogs, and graceful degradation
+- **Multi-Project Management:** Create, load, and delete projects with full state persistence
+- **Real-Time Text Analysis:** Continuous metrics calculation including word count, readability, and complexity
+- **Advanced Grammar & Readability:** Integrated grammar checking, repeated word detection, and readability scoring
+- **Version Control & Change Tracking:** Comprehensive undo/redo system with detailed change history for managing drafts
+- **Settings Persistence:** Dot-notation configuration system with nested section access and JSON storage
+- **Comprehensive Export:** Multi-format export supporting TXT, Markdown, DOCX, PDF, EPUB, and JSON
+- **Performance Monitoring:** Real-time CPU, memory, and disk usage tracking with threshold alerts
+- **API Integration:** Support for OpenAI, Anthropic, Claude, and Google APIs with intelligent caching and rate limiting
+- **Cost Estimation:** Automatic calculation of API usage costs and budget tracking
+- **Responsive Status Bar:** Real-time display of connection status, resource usage, and application state
+- **Theme System:** Light and dark mode support with customizable color schemes
+- **Automated Workflows:** 11-step writing process with progress tracking and recovery
+- **Writing Analytics:** Session tracking, word count goals, productivity insights, and historical analysis
+- **Database System:** SQLite backend with connection pooling, query caching, and automatic optimization
+- **Error Handling:** Comprehensive error logging, user-friendly error dialogs, and graceful degradation
+- **Accessibility:** Full keyboard navigation and screen reader support for inclusive writing experience
+
+---
+
+# Getting Started
+
+## First-Time Setup
+
+Welcome to AAWT! Here's what you'll see and do when you first launch the application:
+
+### Initial Launch
+
+1. **Welcome Screen:** On first launch, AAWT displays a welcome screen introducing the main features
+2. **Quick Setup Wizard:**
+   - Select your preferred theme (Light, Dark, or System default)
+   - Configure basic writing preferences (font, autosave interval)
+   - Optionally enter API keys for AI assistance (can be done later)
+
+### Creating Your First Project
+
+1. **Click "New Project"** or press `Ctrl+N`
+2. **Enter Project Details:**
+   - **Project Name:** Give your project a unique name
+   - **Genre:** Select the genre (Fantasy, Science Fiction, Mystery, etc.)
+   - **Target Word Count:** Set your goal (optional)
+   - **Target Audience:** Choose your intended readership
+   - **Writing Style:** Select tone and point of view preferences
+3. **Start Writing:** Begin typing in the main editor—your work is auto-saved every 30-60 seconds
+
+### Understanding the Interface
+
+**Main Areas:**
+- **Sidebar (Left):** Navigation buttons to access different views (Dashboard, Projects, Analytics, Settings, etc.)
+- **Content Area (Right):** Main workspace displaying the current view or editor
+- **Status Bar (Bottom):** Real-time metrics including word count, connection status, and performance indicators
+
+**Key Views to Explore:**
+- **Dashboard:** Overview of your current project, progress toward goals, and recent activity
+- **Writing Editor:** Main text editing area with real-time word count and readability feedback
+- **Analytics:** Detailed statistics about your writing sessions and quality metrics
+- **Settings:** Customize the application to match your preferences
+
+### Quick Tips for New Users
+
+- Press `F1` at any time to access context-sensitive help
+- All features are accessible via keyboard shortcuts (see [Keyboard Shortcuts Reference](#keyboard-shortcuts-reference))
+- Your work is automatically saved—look for the green checkmark in the status bar
+- Use the Text Analysis tools to get immediate feedback on readability and style
+- Explore the Export menu when you're ready to share your work
 
 ---
 
 # Core Architecture
 
 ## Entry Point
-**File:** `fanws.py`
+**File:** `aawt.py`
 - Main application entry point
 - Initializes PyQt5 application
 - Loads configuration and database
@@ -81,10 +142,10 @@ FANWS is a comprehensive desktop application designed to assist fantasy adventur
 
 ## Directory Structure
 ```
-FANWS/
+AAWT/
 ├── src/
 │   ├── ui/
-│   │   ├── main_gui.py           # Main GUI implementation (8,700+ lines)
+│   │   ├── main_gui.py           # Main GUI (Graphical User Interface) implementation (8,700+ lines)
 │   │   ├── main_window.py        # Main window container
 │   │   ├── core_ui.py            # Core UI components
 │   │   ├── enhanced_analytics.py # Analytics dashboard
@@ -118,7 +179,7 @@ FANWS/
 
 ## Component Interaction Model
 ```
-Main Application (fanws.py)
+Main Application (aawt.py)
 │
 ├─→ Database Manager (Connection Pooling, Migrations)
 │
@@ -362,9 +423,9 @@ The main GUI uses a proportional split layout:
 
 **Performance Metrics Format:**
 `CPU: 0% | Memory: 0MB`
-- Updates every 1-2 seconds
+- Updates display every 1-2 seconds
 - Shows real-time system resource usage
-- Color changes: Green (<50%), Yellow (50-80%), Red (>80%)
+- Changes color based on load: Green (<50%), Yellow (50-80%), Red (>80%)
 
 ### Menu Bar
 
@@ -397,7 +458,7 @@ The main GUI uses a proportional split layout:
 - View Documentation
 - API Setup Guide
 - Keyboard Shortcuts
-- About FANWS
+- About AAWT
 - Check for Updates
 - Report Issue
 
@@ -3433,11 +3494,11 @@ This data is stored and used for historical analysis and trend reporting.
 
 ---
 
-# Undo/Redo System
+# Undo/Redo System & Versioning
 
-## Change Tracking
+## Change Tracking & Version History
 
-The system maintains a stack of changes to the document. Each keystroke or action is recorded with:
+The system maintains a comprehensive stack of changes to your document, providing powerful versioning capabilities for managing drafts and tracking modifications. Each keystroke or action is recorded with:
 - Timestamp of change
 - Type of change (insert, delete, replace)
 - Content before the change
@@ -3445,8 +3506,14 @@ The system maintains a stack of changes to the document. Each keystroke or actio
 - Character position where change occurred
 - Line number affected
 
+**Versioning Benefits:**
+- **Draft Management:** Track every iteration of your work with complete change history
+- **Safe Experimentation:** Try different approaches knowing you can always revert
+- **Change Comparison:** Review what changed between versions
+- **Recovery:** Restore previous versions if needed
+
 **Change Buffer:**
-Not every character is recorded individually as that would be inefficient. Instead, changes are grouped:
+Not every character is recorded individually, as that would be inefficient. Instead, the system groups changes intelligently:
 - Continuous typing is batched as a single insertion
 - Cut/paste operations are atomic
 - Formatting changes are grouped
@@ -3612,65 +3679,231 @@ The Help menu includes links to online documentation, video tutorials, and commu
 
 ---
 
-# Security Considerations
+# Security & Privacy
 
-## API Key Storage
+## Overview
 
-API keys are stored securely in the settings file with encryption. When displayed in the UI, they're masked showing only the last 4 characters. Full keys are only visible if the user explicitly clicks "Show".
+AAWT prioritizes the security of your work and the privacy of your data. This section outlines the security measures in place and best practices for protecting your writing projects.
+
+## API Key Storage & Protection
+
+API keys are stored securely in the settings file with encryption. When displayed in the UI, they're masked, showing only the last 4 characters. Full keys are only visible if you explicitly click "Show".
 
 **Encryption Method:**
-Keys are encrypted using the user's operating system credentials when possible. This ties encryption to the user account, preventing access by other users on the same computer.
+The system encrypts keys using your operating system credentials when possible. This ties encryption to your user account, preventing access by other users on the same computer.
 
-**Environment Variable Support:**
-Users can alternatively store API keys in environment variables (e.g., `FANWS_OPENAI_KEY`), which the application reads instead of using stored keys. This is the recommended approach for deployments where security is critical.
+**Environment Variable Support (Recommended for Advanced Users):**
+You can alternatively store API keys in environment variables (e.g., `AAWT_OPENAI_KEY`), which the application reads instead of using stored keys. This is the recommended approach for deployments where security is critical.
 
-## Data Privacy
+**Best Practices:**
+- Never share your API keys with others
+- Regularly rotate API keys if you suspect compromise
+- Use environment variables for sensitive deployments
+- Review API usage regularly to detect unauthorized access
 
-The application stores all data locally on the user's computer. No data is sent to external servers except when explicitly making API calls to language models or external analysis services.
+## Data Privacy & Storage
+
+The application stores all your data locally on your computer. No data is sent to external servers except when you explicitly make API calls to language models or external analysis services.
+
+**What Stays Local:**
+- All your writing content
+- Project files and metadata
+- Writing session history
+- Settings and preferences
+- Cache data and analysis results
+
+**What May Be Sent Externally (Only When You Request It):**
+- Text sent to AI services for analysis or generation
+- API requests to grammar/readability services
+- Optional telemetry (disabled by default)
+
+## User Data Protection
 
 **Telemetry Disabled by Default:**
-Optional telemetry can be enabled to help developers improve the application, but it's disabled by default. Users can review exactly what data would be sent before enabling it.
+Optional telemetry can be enabled to help developers improve the application, but it's disabled by default. You can review exactly what data would be sent before enabling it.
 
-**No Cloud Sync:**
-The application doesn't automatically sync data to cloud storage. Users must manually export or back up projects if they want to store them elsewhere.
+**No Automatic Cloud Sync:**
+The application doesn't automatically sync data to cloud storage. You must manually export or back up projects if you want to store them elsewhere. This gives you complete control over your data.
+
+**Offline Mode:**
+AAWT works fully offline for all core features. API-based features (AI assistance, external grammar checking) require internet connectivity, but all text analysis and editing functions work without internet access.
+
+## Project File Encryption
+
+**Future Enhancement:**
+Project-level encryption is planned for a future release, allowing you to password-protect sensitive projects.
+
+## Security Recommendations
+
+- **Keep Backups:** Regularly back up your projects to external storage
+- **Update Regularly:** Keep AAWT updated to receive security patches
+- **Secure Your Computer:** Use operating system security features (full disk encryption, strong passwords)
+- **Review Permissions:** Ensure the application has appropriate file system permissions
+- **Monitor API Usage:** Check your API usage dashboard for unexpected activity
+
+---
+
+# Performance & Scalability
+
+## Performance Optimization
+
+AAWT is designed to handle large writing projects efficiently while maintaining responsive performance.
+
+### Text Processing Performance
+
+**Metrics:**
+- Processes 10,000-word documents in under 100ms
+- Memory usage: ~2-5MB per analysis
+- Cached results for repeated texts to avoid redundant processing
+- Thread-safe operations allow analysis without blocking the UI
+
+**Optimization Techniques:**
+- Debounced analysis (minimum 500ms between updates) prevents overwhelming the system
+- Parallel processing for independent analysis tasks
+- Query caching reduces database load by over 70% for read-heavy operations
+- Connection pooling minimizes database connection overhead
+
+### Database Performance
+
+**Configuration:**
+- Write-Ahead Logging (WAL) mode improves concurrent access
+- Synchronous mode set to NORMAL balances safety with speed
+- Cache size allocation (2000 pages default) for in-memory buffering
+- Automatic incremental vacuum cleans up space gradually
+
+**Query Optimization:**
+- Appropriate indexes on frequently-queried columns
+- Compound indexes for multi-column queries
+- Query result caching with 1-hour expiration
+- Connection pool size: 5 connections (configurable)
+
+## Scalability Considerations
+
+### Large Projects
+
+**Handling Large Documents:**
+- Supports projects with 100,000+ words without performance degradation
+- Incremental text analysis processes only changed sections
+- Smart caching strategies reduce memory footprint
+- Background tasks prevent UI blocking
+
+**Multiple Projects:**
+- Efficient project switching with minimal load time
+- Shared resource management across projects
+- Isolated project data prevents cross-contamination
+
+### Multiple Users
+
+**Current Status:**
+AAWT is designed as a single-user desktop application. Each user runs their own instance with separate data.
+
+**Future Enhancement:**
+Multi-user collaboration features are planned for future releases (see [Future Enhancements & Roadmap](#future-enhancements--roadmap)).
+
+### Offline Mode & Fallback Behavior
+
+**Offline Capabilities:**
+- Core writing and editing functions work completely offline
+- Local text analysis (grammar, readability) available without internet
+- Project management and session tracking function offline
+- Export to all formats works without internet connectivity
+
+**Fallback Behavior:**
+- When external APIs are unavailable, the system automatically switches to local analysis
+- Built-in algorithms provide grammar and readability scoring
+- Cache serves previously analyzed content during outages
+- Clear status indicators show when operating in offline mode
+
+### Large Exports
+
+**Export Performance:**
+- Asynchronous export processing keeps UI responsive during generation
+- Progress indicators show export status for large documents
+- Validation ensures generated files are correct before completion
+- Compression options reduce file sizes for large projects
+
+## Performance Monitoring
+
+**Real-Time Metrics:**
+- CPU usage tracking with color-coded indicators
+- Memory usage monitoring with threshold alerts
+- Disk I/O performance tracking
+- API response time measurement
+
+**Performance Dashboard:**
+Available in the Analytics view, showing:
+- Database query performance trends
+- Cache hit rates over time
+- API usage and response times
+- Memory usage patterns
+- System resource utilization
 
 ---
 
 # Accessibility Features
 
+## Overview
+
+AAWT is designed to be accessible to all writers, including those with disabilities. The application follows accessibility best practices and supports assistive technologies.
+
 ## Keyboard Navigation
 
-The entire application is navigable using keyboard only. All buttons, menus, and controls respond to keyboard input.
+The entire application is navigable using keyboard only. All buttons, menus, and controls respond to keyboard input without requiring a mouse.
 
 **Tab Order:**
-Tab key moves focus through controls in a logical order. Shift+Tab moves backward. Users never need a mouse for any function.
+- Tab key moves focus through controls in a logical order
+- Shift+Tab moves backward through controls
+- Arrow keys navigate within menus and lists
+- Enter/Space activates buttons and controls
 
 **Keyboard Focus Indicators:**
-All focused elements display a clear focus indicator (typically a border or highlight) so users can see which control is selected.
+All focused elements display a clear focus indicator (typically a border or highlight) so you can easily see which control is selected.
+
+**Comprehensive Shortcuts:**
+Over 20 keyboard shortcuts provide quick access to common functions (see [Keyboard Shortcuts Reference](#keyboard-shortcuts-reference) for the complete list).
 
 ## Screen Reader Support
 
-The application supports screen readers (NVDA, JAWS, etc.) through proper accessibility labeling of all UI elements.
+The application supports screen readers such as NVDA, JAWS, and VoiceOver through proper accessibility labeling of all UI elements.
 
 **Labels and Descriptions:**
-All buttons have accessible names describing their function. Input fields have associated labels. Complex elements have detailed descriptions.
+- All buttons have accessible names describing their function
+- Input fields have associated labels read by screen readers
+- Complex elements include detailed descriptions
+- Dynamic content updates are announced appropriately
 
 **Semantic Structure:**
-The UI structure is logically organized so screen reader users can navigate through related elements.
+The UI structure is logically organized so screen reader users can navigate through related elements efficiently and understand the application hierarchy.
 
-## High Contrast Mode
+## Visual Accessibility
+
+### High Contrast Mode
 
 The High Contrast theme provides maximum contrast between text and background for users with low vision.
 
-**Color Choices:**
-Colors are chosen to meet WCAG AAA contrast standards (7:1 ratio minimum).
+**Color Standards:**
+- Colors meet WCAG AAA contrast standards (7:1 ratio minimum)
+- Information is never conveyed by color alone
+- Icons, text, and other indicators support color choices
 
-**No Color-Only Information:**
-Information is never conveyed by color alone. Icons, text, or other indicators support color choices.
+### Text Scaling
 
-## Text Scaling
+- Users can increase or decrease font size throughout the application (Ctrl+Plus/Minus)
+- Text reflows to accommodate larger sizes without breaking layouts
+- UI elements scale proportionally with text size
+- Zoom functionality (100%-200%) maintains readability
 
-Users can increase or decrease font size throughout the application without breaking layouts. Text reflows to accommodate larger sizes.
+## Customization Options
+
+**Theme Flexibility:**
+- Light, Dark, and High Contrast themes accommodate different visual needs
+- Custom color schemes can be created for specific requirements
+- Font family and size are fully customizable
+
+**UI Density:**
+- Adjustable spacing between elements
+- Configurable information density (minimal, normal, detailed)
+- Resizable panels and windows
 
 ---
 
@@ -3678,7 +3911,7 @@ Users can increase or decrease font size throughout the application without brea
 
 ## Internationalization (i18n)
 
-The application supports multiple languages through a translation system.
+AAWT supports multiple languages through a comprehensive translation system, making the application accessible to writers worldwide.
 
 **Supported Languages:**
 - English (default)
@@ -3688,15 +3921,219 @@ The application supports multiple languages through a translation system.
 - Chinese (Simplified)
 - Japanese
 
+**Additional Language Packs:**
+Additional languages can be added through community-contributed translation files.
+
+## UI Localization
+
+**Complete Interface Translation:**
+- All menus, buttons, and labels are translated
+- Dialog boxes and error messages appear in the selected language
+- Help documentation is localized where available
+- Keyboard shortcuts are adapted for different keyboard layouts
+
 **Language Selection:**
-Users select their preferred language in settings. The language persists between sessions.
+Users select their preferred language in the Settings panel. The interface updates immediately, and the preference persists between sessions.
 
 **Translation System:**
 All user-facing text is stored in language files rather than hardcoded in the application. This allows translators to provide text in their native language without modifying code.
 
-## Right-to-Left Languages
+## Text Analysis Language Support
 
-The application properly handles right-to-left languages like Arabic and Hebrew with mirrored layouts and proper text direction.
+**Multi-Language Analysis:**
+The text analysis system can process content in multiple languages:
+- Readability formulas are adapted for each language to account for linguistic differences
+- Language detection is automatic based on the text content
+- Users can manually override language selection if needed
+
+**Supported Analysis Languages:**
+- English, Spanish, French, German, and other major European languages
+- Additional language support planned for future releases
+
+## Right-to-Left Language Support
+
+The application properly handles right-to-left (RTL) languages like Arabic and Hebrew:
+- Automatic layout mirroring for RTL languages
+- Proper text direction and alignment
+- Bidirectional text support for mixed-direction content
+
+---
+
+# Best Practices for Writers
+
+## Structuring Your Workflow with AAWT
+
+To get the most out of AAWT, follow these recommended practices:
+
+### Project Organization
+
+**Start with Planning:**
+1. Create a new project with clear goals (target word count, deadline)
+2. Fill in the outline.md file with your chapter structure
+3. Define main characters in characters.json before you start writing
+4. Set your genre and target audience in project settings
+
+**Maintain Consistency:**
+- Use the Consistency Check tool regularly to catch character name variations
+- Run Text Analysis after completing each chapter
+- Review the readability scores to ensure they match your target audience
+- Check for repeated words every 5,000 words written
+
+### Writing Session Best Practices
+
+**Establish a Routine:**
+- Set daily word count goals in the Settings
+- Start a dedicated writing session (Start Writing button) to track your progress
+- Take advantage of auto-save—you don't need to manually save constantly
+- Use the session analytics to identify your most productive times
+
+**Minimize Distractions:**
+- Use fullscreen mode (F11) for focused writing
+- Disable or minimize real-time analysis during first drafts if it's distracting
+- Review analysis results during editing sessions instead
+
+### Version Management
+
+**Leverage Change Tracking:**
+- Don't be afraid to experiment—the undo history lets you revert changes
+- Review your change history (Ctrl+Alt+H) to see how your text evolved
+- Create manual backups before major revisions or restructuring
+- Use the export feature to create milestone snapshots (e.g., "Chapter_3_Draft_1.docx")
+
+**Draft Iterations:**
+- Save each major draft as a separate export
+- Use naming conventions like "ProjectName_Draft_1", "ProjectName_Draft_2"
+- Keep all drafts until you're certain about changes
+- Review the Undo History panel to understand what changed between drafts
+
+### Using AI Assistance Effectively
+
+**When to Use AI:**
+- Breaking through writer's block (request continuation suggestions)
+- Generating alternative phrasings for awkward sentences
+- Brainstorming character dialogue options
+- Getting unstuck on plot points
+
+**When to Write Manually:**
+- Your unique voice and style
+- Emotional or pivotal scenes
+- Character-defining moments
+- Final polishing and refinement
+
+**Cost Management:**
+- Monitor your API usage in the Analytics dashboard
+- Set budget alerts to avoid unexpected costs
+- Use local analysis tools (grammar, readability) which are free
+- Cache reduces redundant API calls automatically
+
+### Quality Control Workflow
+
+**Recommended Review Process:**
+1. **First Draft:** Write freely without stopping for analysis
+2. **Second Pass:** Run Grammar Check and fix major issues
+3. **Third Pass:** Run Readability Analysis and adjust for your audience
+4. **Fourth Pass:** Run Consistency Check for character/place names
+5. **Final Pass:** Style Analysis to ensure tone consistency
+
+**Regular Maintenance:**
+- Clear cache weekly to free up disk space (Settings → Performance)
+- Review API usage monthly to understand costs
+- Back up projects weekly to external storage
+- Archive completed projects to keep the interface clean
+
+### Export Strategy
+
+**During Development:**
+- Export to TXT or Markdown for version control systems
+- Keep milestone exports as you complete major sections
+
+**For Sharing:**
+- Export to DOCX for editors and beta readers
+- Export to PDF for agents or publishers
+- Export to EPUB for e-reader testing
+
+**For Backup:**
+- Export to JSON to preserve all metadata and structure
+- Keep backups on external drives or cloud storage (manually)
+
+---
+
+# Future Enhancements & Roadmap
+
+## Planned Features
+
+AAWT is under active development. Here are some features planned for future releases:
+
+### Version Control Integration
+
+**Git Integration:**
+- Built-in Git support for professional version control
+- Automatic commits on significant changes
+- Branch-based draft management
+- Diff visualization for comparing versions
+
+### Collaboration Features
+
+**Multi-User Support:**
+- Real-time collaborative editing for co-authors
+- Comments and annotations system
+- Track changes with author attribution
+- Share projects securely with editors or beta readers
+- Role-based permissions (author, editor, viewer)
+
+**Note:** Until collaboration features are implemented, AAWT remains a single-user application. Users can manually share exported files for feedback.
+
+### Cloud Sync & Mobile
+
+**Cloud Integration:**
+- Optional cloud backup and sync (encrypted)
+- Access projects across multiple computers
+- Mobile companion app for on-the-go note-taking and drafting
+- Automatic conflict resolution for multi-device editing
+
+**Privacy:** Cloud sync will be optional and use end-to-end encryption
+
+### Advanced AI Features
+
+**Enhanced AI Capabilities:**
+- Fine-tuning AI models on your writing style
+- Genre-specific writing assistants
+- Plot consistency checker using AI
+- Character voice differentiation analysis
+- Automatic chapter summarization
+
+### Plugin Architecture
+
+**Extensibility:**
+- Plugin system for community-developed extensions
+- Custom export format support
+- Third-party API integrations
+- Custom analysis tools
+
+### Enhanced Analytics
+
+**Writing Insights:**
+- Predictive completion date based on writing patterns
+- Mood and tone analysis over time
+- Character development tracking
+- Plot pacing visualization
+- Comparison with published works in your genre
+
+### Project Templates
+
+**Quick Start Templates:**
+- Genre-specific project templates
+- Pre-built character sheets
+- Plot structure templates
+- World-building frameworks
+
+### Integration with "Everything App"
+
+As part of a larger ecosystem, AAWT may integrate with other productivity tools in the future, enabling seamless workflows across writing, research, and publication tasks.
+
+## Community Contributions
+
+We welcome community contributions! If you'd like to suggest features, report bugs, or contribute code, please visit our GitHub repository.
 
 ---
 
@@ -3796,7 +4233,7 @@ When exporting, content is retrieved from the database, formatted according to t
 
 # Summary
 
-FANWS is a comprehensive, production-ready application featuring:
+AAWT is a comprehensive, production-ready writing application featuring:
 
 - **1,000+ components** across multiple systems
 - **8,700+ lines** of GUI code alone
@@ -3806,10 +4243,202 @@ FANWS is a comprehensive, production-ready application featuring:
 - **Persistent storage** with connection pooling
 - **Real-time monitoring** and analytics
 - **Responsive UI** with dark/light themes
-- **Extensible architecture** via plugin system
+- **Version control** with comprehensive change tracking
+- **Extensible architecture** for future enhancements
 - **Robust error handling** and logging
+- **Full accessibility** support
 
-The application successfully combines a modern PyQt5 interface with powerful backend systems to create a comprehensive writing assistant for fantasy authors.
+The application combines a modern PyQt5 interface with powerful backend systems to create a comprehensive writing assistant for authors working on fiction, fantasy, and world-building projects.
+
+---
+
+# Technical Reference
+
+This appendix provides detailed technical information for developers and advanced users.
+
+## Database System
+
+### Database Architecture Overview
+
+The database system provides persistent storage for all application data, project information, writing sessions, API usage, and analytics. It uses SQLite with connection pooling for concurrent access, fast queries, and reliable data integrity.
+
+### Database Manager System
+
+#### Core Responsibilities
+
+The database manager handles all interactions with the underlying SQLite database:
+- Connection lifecycle management (creation, validation, reuse, cleanup)
+- Connection pool size optimization based on application load
+- Automatic reconnection on connection failures
+- Query timeout enforcement to prevent hanging queries
+- Health check monitoring to detect stale connections
+- Transaction management with automatic rollback on errors
+- Performance statistics collection and reporting
+
+#### Connection Pooling Strategy
+
+The system maintains a pool of pre-established connections rather than creating a new database connection for each query. This dramatically improves performance since connection creation is expensive.
+
+**Pool Configuration:**
+- Default pool size: 5 connections
+- Maximum connection limit prevents resource exhaustion
+- Connection timeout: 30 seconds (default)
+- Idle connection cleanup removes unused connections after a period of inactivity
+- Health monitoring thread periodically tests connections in the pool
+- Automatic growth when all connections are in use (up to maximum)
+
+#### Query Cache System
+
+The query cache stores results of frequently-run queries so they don't need to be re-executed. Queries with identical parameters return cached results instead of hitting the database.
+
+**Cache Configuration:**
+- Cache key generated from query text and parameters
+- Cached entries expire after 1 hour (configurable by query type)
+- Cache invalidation on data modifications
+- Cache hit rates often exceed 70% for read-heavy operations
+
+### Database Schema
+
+#### Projects Table
+
+Stores information about each writing project.
+
+**Fields:**
+- `id` (Integer, Primary Key): Unique identifier
+- `name` (Text, Unique): Project name
+- `created_date` (Text): ISO 8601 timestamp of creation
+- `last_modified` (Text): ISO 8601 timestamp of most recent change
+- `status` (Text): Current state ("active", "paused", "completed")
+- `settings` (Text, JSON): Project-specific settings
+- `word_count` (Integer): Current total word count
+- `target_words` (Integer): Target word count goal
+- `metadata` (Text, JSON): Additional project information
+
+**Indexes:**
+- Primary key on `id`
+- Unique constraint on `name`
+- Recommended index on `created_date` and `status`
+
+#### API Usage Table
+
+Tracks every API call for analytics, cost calculation, and performance monitoring.
+
+**Fields:**
+- `id` (Integer, Primary Key): Unique identifier
+- `project_id` (Integer, Foreign Key): Associated project
+- `api_type` (Text): API called ("openai", "anthropic", "google", "huggingface")
+- `endpoint` (Text): Specific API endpoint
+- `response_time` (Float): Call duration in seconds
+- `success` (Boolean): Whether call succeeded
+- `status_code` (Integer): HTTP status code
+- `error_message` (Text): Error description if failed
+- `tokens_used` (Integer): Tokens consumed
+- `cost` (Float): Calculated cost in dollars
+- `timestamp` (Text): ISO 8601 timestamp
+- `request_hash` (Text): Hash for deduplication
+
+**Indexes:**
+- Primary key on `id`
+- Foreign key on `project_id`
+- Compound index on (`api_type`, `timestamp`)
+- Index on `timestamp`
+- Index on `success`
+
+#### Content Cache Table
+
+Stores cached analysis results and API responses.
+
+**Fields:**
+- `id` (Integer, Primary Key): Unique identifier
+- `project_id` (Integer, Foreign Key): Associated project
+- `content_type` (Text): Type ("analysis", "api_response", "readability")
+- `content_key` (Text): Identifying key
+- `content_value` (Text/BLOB): Cached data (typically JSON)
+- `content_hash` (Text): Hash for integrity checking
+- `created_date` (Text): ISO 8601 timestamp of caching
+- `expires_date` (Text): ISO 8601 timestamp of expiration
+- `access_count` (Integer): Usage count
+- `last_accessed` (Text): ISO 8601 timestamp of last use
+
+**Unique Constraint:**
+- Compound unique on (`project_id`, `content_type`, `content_key`)
+
+**Indexes:**
+- Primary key on `id`
+- Foreign key on `project_id`
+- Index on `expires_date`
+- Index on (`content_type`, `content_key`)
+
+#### Writing Sessions Table
+
+Records each writing session for analytics.
+
+**Fields:**
+- `id` (Integer, Primary Key): Unique identifier
+- `project_id` (Integer, Foreign Key): Associated project
+- `start_time` (Text): ISO 8601 timestamp of session start
+- `end_time` (Text): ISO 8601 timestamp of session end
+- `words_written` (Integer): Words written during session
+- `session_type` (Text): Type ("writing", "editing", "review")
+
+**Indexes:**
+- Primary key on `id`
+- Foreign key on `project_id`
+- Index on (`project_id`, `start_time`)
+
+#### Change History Table
+
+Tracks all modifications for undo functionality.
+
+**Fields:**
+- `id` (Integer, Primary Key): Unique identifier
+- `project_id` (Integer, Foreign Key): Associated project
+- `change_type` (Text): "insert", "delete", or "replace"
+- `content_before` (Text): Content before change
+- `content_after` (Text): Content after change
+- `timestamp` (Text): When change was made
+- `character_position` (Integer): Position in document
+- `line_number` (Integer): Affected line number
+
+### Database Configuration
+
+**PRAGMA Settings:**
+- Foreign key enforcement enabled
+- Write-Ahead Logging (WAL) mode for concurrent access
+- Synchronous mode: NORMAL (balances safety with speed)
+- Cache size: 2000 pages (in-memory buffering)
+- Temporary storage: memory
+- Automatic incremental vacuum
+
+## Data Flow Architecture
+
+### User Input Processing
+
+User input flows through a structured pipeline:
+
+**Pipeline:**
+Input → Validation → Command Creation → System Processing → Data Storage → UI Update
+
+### Data Storage and Retrieval
+
+The system processes data modifications through the database manager, uses connection pooling for efficiency, caches results to avoid redundant queries, and invalidates cache when data changes.
+
+**Query Optimization:**
+- Related data fetched together to minimize roundtrips
+- Indexes ensure common queries execute quickly
+- Batch operations reduce overhead
+
+### Real-Time Updates
+
+**Update Frequency:**
+- Metrics: Every 1-2 seconds
+- Text analysis: Every 500ms (debounced)
+- Performance stats: Every 1-2 seconds
+- Analytics dashboard: Every 5 seconds
+
+### Export Processing
+
+The system retrieves content from the database, formats it according to the selected format, validates the output, then writes to disk. Large exports are processed asynchronously to keep the UI responsive.
 
 ---
 
